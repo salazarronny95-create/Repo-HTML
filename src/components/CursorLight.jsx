@@ -28,5 +28,10 @@ export default function CursorLight() {
     };
   }, []);
 
-  return <div className="cursor-light" style={{ left: pos.x, top: pos.y }} aria-hidden="true" />;
+  return (
+    <>
+      <div className="cursor-light__halo" style={{ left: pos.x, top: pos.y }} aria-hidden="true" />
+      <div className="cursor-light__core" style={{ left: pos.x, top: pos.y }} aria-hidden="true" />
+    </>
+  );
 }

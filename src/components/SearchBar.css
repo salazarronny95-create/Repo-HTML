@@ -15,7 +15,7 @@
 
 .search-bar:focus-within {
   border-color: var(--md-primary);
-  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+  box-shadow: 0 0 0 3px rgba(107, 231, 135, 0.2);
 }
 
 .search-bar__icon {

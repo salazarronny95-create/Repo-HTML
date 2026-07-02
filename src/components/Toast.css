@@ -8,10 +8,10 @@
   padding: 14px 20px;
   border-radius: var(--md-shape-sm);
   background: #1a1a2e;
-  border: 1px solid rgba(220, 38, 38, 0.3);
+  border: 1px solid rgba(107, 231, 135, 0.3);
   color: #F1F5F9;
   font: var(--md-body-medium);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(220, 38, 38, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(107, 231, 135, 0.1);
   z-index: 2000;
   animation: toastIn 0.3s ease;
   max-width: 400px;

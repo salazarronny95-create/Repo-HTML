@@ -25,10 +25,11 @@ export function useProjects() {
 
   const upload = useCallback(async (file, responsible, tags, fechaCreacion) => {
     const result = await uploadProject(file, responsible, tags, fechaCreacion);
-    // Reload to get fresh data from server
-    await load();
+    // Append locally instead of reloading — Blob storage takes a moment to
+    // propagate the metadata write, so an immediate reload can race it.
+    setProjects((prev) => [...prev, ...result]);
     return result;
-  }, [load]);
+  }, []);
 
   const remove = useCallback(async (id) => {
     await deleteProject(id);

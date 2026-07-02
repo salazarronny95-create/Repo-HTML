@@ -1,11 +1,11 @@
-/* ===== Material Design 3 Theme — Claude Tech Dark Palette ===== */
+/* ===== Material Design 3 Theme — In House Dark Palette ===== */
 
 :root {
-  /* Brand colors - Pronaca red palette */
-  --md-primary: #DC2626;
-  --md-on-primary: #FFFFFF;
-  --md-primary-container: rgba(220, 38, 38, 0.14);
-  --md-on-primary-container: #FCA5A5;
+  /* Brand colors - In House palette */
+  --md-primary: #6BE787;
+  --md-on-primary: #262E37;
+  --md-primary-container: rgba(107, 231, 135, 0.14);
+  --md-on-primary-container: #6BE787;
   --md-secondary: #A78BFA;
   --md-on-secondary: #0B0B12;
   --md-secondary-container: rgba(167, 139, 250, 0.14);
@@ -120,11 +120,11 @@ body {
 .m3-card:hover {
   box-shadow: var(--md-elevation-2);
   transform: translateY(-2px);
-  border-color: rgba(220, 38, 38, 0.2);
+  border-color: rgba(107, 231, 135, 0.2);
 }
 
 .m3-card:focus-within {
-  border-color: rgba(220, 38, 38, 0.3);
+  border-color: rgba(107, 231, 135, 0.3);
 }
 
 .m3-button {
@@ -152,7 +152,7 @@ body {
 }
 
 .m3-button--filled:hover {
-  background: rgba(220, 38, 38, 0.85);
+  background: rgba(107, 231, 135, 0.85);
   box-shadow: var(--md-elevation-2);
 }
 
@@ -162,7 +162,7 @@ body {
 }
 
 .m3-button--tonal:hover {
-  background: rgba(220, 38, 38, 0.22);
+  background: rgba(107, 231, 135, 0.22);
 }
 
 .m3-button--outlined {
@@ -172,7 +172,7 @@ body {
 }
 
 .m3-button--outlined:hover {
-  background: rgba(220, 38, 38, 0.08);
+  background: rgba(107, 231, 135, 0.08);
 }
 
 .m3-button--text {
@@ -182,7 +182,7 @@ body {
 }
 
 .m3-button--text:hover {
-  background: rgba(220, 38, 38, 0.08);
+  background: rgba(107, 231, 135, 0.08);
 }
 
 .m3-button--icon {
@@ -209,7 +209,7 @@ body {
 }
 
 .m3-chip:hover {
-  background: rgba(220, 38, 38, 0.08);
+  background: rgba(107, 231, 135, 0.08);
 }
 
 .m3-chip--active {
@@ -232,7 +232,7 @@ body {
 
 .m3-input:focus {
   border-color: var(--md-primary);
-  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+  box-shadow: 0 0 0 3px rgba(107, 231, 135, 0.2);
 }
 
 .m3-input::placeholder {

@@ -18,12 +18,12 @@
 
 .dropzone:hover {
   border-color: var(--md-primary);
-  background: rgba(220, 38, 38, 0.04);
+  background: rgba(107, 231, 135, 0.04);
 }
 
 .dropzone--drag {
   border-color: var(--md-primary);
-  background: rgba(220, 38, 38, 0.1);
+  background: rgba(107, 231, 135, 0.1);
   border-style: solid;
   transform: scale(1.01);
 }

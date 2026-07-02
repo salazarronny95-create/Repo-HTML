@@ -1,23 +1,41 @@
-.cursor-light {
+.cursor-light__halo {
   position: fixed;
-  width: 400px;
-  height: 400px;
+  width: 440px;
+  height: 440px;
   border-radius: 50%;
   pointer-events: none;
   z-index: 9998;
   transform: translate(-50%, -50%);
   background: radial-gradient(
     circle,
-    rgba(220, 38, 38, 0.06) 0%,
-    rgba(220, 38, 38, 0.03) 30%,
-    transparent 60%
+    rgba(107, 231, 135, 0.16) 0%,
+    rgba(107, 231, 135, 0.08) 25%,
+    rgba(107, 231, 135, 0.03) 45%,
+    transparent 65%
   );
   transition: left 0.05s ease-out, top 0.05s ease-out;
   will-change: left, top;
 }
 
+.cursor-light__core {
+  position: fixed;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  background: #6BE787;
+  box-shadow:
+    0 0 12px 4px rgba(107, 231, 135, 0.55),
+    0 0 24px 8px rgba(107, 231, 135, 0.25);
+  transition: left 0.03s ease-out, top 0.03s ease-out;
+  will-change: left, top;
+}
+
 @media (pointer: coarse) {
-  .cursor-light {
+  .cursor-light__halo,
+  .cursor-light__core {
     display: none;
   }
 }

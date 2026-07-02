@@ -5,7 +5,7 @@
   top: 0;
   z-index: 100;
   box-shadow: var(--md-elevation-1);
-  border-bottom: 1px solid rgba(220, 38, 38, 0.15);
+  border-bottom: 1px solid rgba(107, 231, 135, 0.15);
 }
 
 .header__inner {
@@ -20,15 +20,7 @@
   gap: 12px;
 }
 
-.header__icon {
-  width: 44px;
-  height: 44px;
-  background: var(--md-primary);
-  color: var(--md-on-primary);
-  border-radius: var(--md-shape-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.header__brand svg {
   flex-shrink: 0;
 }
 
@@ -52,12 +44,8 @@
   .header__title {
     font: var(--md-title-medium);
   }
-  .header__icon {
+  .header__brand svg {
     width: 36px;
     height: 36px;
-  }
-  .header__icon svg {
-    width: 22px;
-    height: 22px;
   }
 }

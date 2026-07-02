@@ -39,7 +39,10 @@ const upload = multer({
 async function readProjects() {
   try {
     const blob = await head(PROJECTS_BLOB_PATH);
-    const res = await fetch(blob.url);
+    // Cache-bust: Vercel Blob's default cache-control is one month, and this
+    // pathname gets overwritten on every write, so an uncached query param
+    // is required or reads can serve stale data right after a write.
+    const res = await fetch(`${blob.url}?v=${Date.now()}`, { cache: 'no-store' });
     return await res.json();
   } catch {
     return [];
@@ -52,6 +55,7 @@ async function writeProjects(projects) {
     addRandomSuffix: false,
     allowOverwrite: true,
     contentType: 'application/json',
+    cacheControlMaxAge: 60,
   });
 }
 

@@ -1,4 +1,4 @@
-import { FolderOpen } from 'lucide-react';
+import InHouseIsotipo from './InHouseIsotipo.jsx';
 import './Header.css';
 
 export default function Header({ projectCount }) {
@@ -6,9 +6,7 @@ export default function Header({ projectCount }) {
     <header className="header">
       <div className="container header__inner">
         <div className="header__brand">
-          <div className="header__icon">
-            <FolderOpen size={28} />
-          </div>
+          <InHouseIsotipo size={44} />
           <div>
             <h1 className="header__title">Repositorio de Proyectos</h1>
             <p className="header__subtitle">
