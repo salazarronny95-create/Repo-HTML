@@ -4,3 +4,5 @@ server/data/
 server/uploads/
 .DS_Store
 *.log
+.env.local
+.vercel

@@ -79,13 +79,19 @@ export default function App() {
     [upload]
   );
 
-  const handleDownload = useCallback((project) => {
+  const handleDownload = useCallback(async (project) => {
+    // project.ruta is a cross-origin Blob Storage URL; the `download` attribute
+    // is ignored on cross-origin links, so fetch it and download as a local blob.
+    const res = await fetch(project.ruta);
+    const blob = await res.blob();
+    const objectUrl = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = project.ruta;
+    a.href = objectUrl;
     a.download = project.nombre;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    URL.revokeObjectURL(objectUrl);
   }, []);
 
   const handleDelete = useCallback(
