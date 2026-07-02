@@ -4,9 +4,9 @@ import path from 'path';
 import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import AdmZip from 'adm-zip';
-import { put, del, head } from '@vercel/blob';
+import { put, del, list } from '@vercel/blob';
 
-const PROJECTS_BLOB_PATH = 'data/projects.json';
+const PROJECTS_PREFIX = 'data/projects-';
 const MAX_ZIP_ENTRIES = 50;
 const MAX_ZIP_UNCOMPRESSED_BYTES = 100 * 1024 * 1024; // 100MB total across extracted files
 
@@ -36,13 +36,19 @@ const upload = multer({
   limits: { fileSize: 50 * 1024 * 1024 },
 });
 
+// The project list is stored as a versioned blob rather than one mutable
+// file: overwriting the same pathname doesn't invalidate Vercel Blob's CDN
+// cache (a cache-busting query string doesn't help either — the CDN ignores
+// it), so a read right after a write could serve stale data indefinitely.
+// A freshly created pathname is guaranteed to be an uncached CDN MISS on its
+// first fetch, which sidesteps the problem entirely. Old versions are best-
+// effort cleaned up right after each write.
 async function readProjects() {
   try {
-    const blob = await head(PROJECTS_BLOB_PATH);
-    // Cache-bust: Vercel Blob's default cache-control is one month, and this
-    // pathname gets overwritten on every write, so an uncached query param
-    // is required or reads can serve stale data right after a write.
-    const res = await fetch(`${blob.url}?v=${Date.now()}`, { cache: 'no-store' });
+    const { blobs } = await list({ prefix: PROJECTS_PREFIX });
+    if (blobs.length === 0) return [];
+    const latest = blobs.reduce((a, b) => (new Date(a.uploadedAt) > new Date(b.uploadedAt) ? a : b));
+    const res = await fetch(latest.url);
     return await res.json();
   } catch {
     return [];
@@ -50,13 +56,12 @@ async function readProjects() {
 }
 
 async function writeProjects(projects) {
-  await put(PROJECTS_BLOB_PATH, JSON.stringify(projects, null, 2), {
+  const { blobs: previous } = await list({ prefix: PROJECTS_PREFIX });
+  await put(`${PROJECTS_PREFIX}${Date.now()}-${uuidv4().slice(0, 8)}.json`, JSON.stringify(projects, null, 2), {
     access: 'public',
-    addRandomSuffix: false,
-    allowOverwrite: true,
     contentType: 'application/json',
-    cacheControlMaxAge: 60,
   });
+  await Promise.allSettled(previous.map((b) => del(b.url)));
 }
 
 // Extracts .html entries from a zip buffer and uploads each to Blob storage.
