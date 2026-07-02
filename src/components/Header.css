@@ -12,6 +12,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .header__brand {
@@ -47,5 +49,12 @@
   .header__brand svg {
     width: 36px;
     height: 36px;
+  }
+  .header__inner {
+    justify-content: flex-start;
+  }
+  .storage-bar {
+    order: 1;
+    margin-left: 56px;
   }
 }

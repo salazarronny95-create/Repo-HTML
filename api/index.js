@@ -76,11 +76,12 @@ async function extractAndUploadZip(buffer) {
   const uploaded = [];
   for (const entry of htmlEntries) {
     const fileName = uniqueFileName(path.basename(entry.entryName));
-    const blob = await put(`uploads/${fileName}`, entry.getData(), {
+    const data = entry.getData();
+    const blob = await put(`uploads/${fileName}`, data, {
       access: 'public',
       contentType: 'text/html; charset=utf-8',
     });
-    uploaded.push({ fileName, url: blob.url });
+    uploaded.push({ fileName, url: blob.url, sizeBytes: data.length });
   }
   return uploaded;
 }
@@ -121,7 +122,7 @@ app.post('/api/projects', upload.single('file'), async (req, res) => {
         access: 'public',
         contentType: 'text/html; charset=utf-8',
       });
-      uploadedFiles = [{ fileName: originalname, url: blob.url }];
+      uploadedFiles = [{ fileName: originalname, url: blob.url, sizeBytes: buffer.length }];
     }
   } catch (err) {
     return res.status(400).json({ error: err.message || 'Error al procesar el archivo' });
@@ -136,7 +137,7 @@ app.post('/api/projects', upload.single('file'), async (req, res) => {
   const now = new Date().toISOString();
   const projects = await readProjects();
 
-  const newProjects = uploadedFiles.map(({ fileName, url }) => ({
+  const newProjects = uploadedFiles.map(({ fileName, url, sizeBytes }) => ({
     id: uuidv4(),
     nombre: fileName,
     fecha_creacion: req.body.fecha_creacion || now,
@@ -144,6 +145,7 @@ app.post('/api/projects', upload.single('file'), async (req, res) => {
     responsable: responsible,
     ruta: url,
     etiquetas: tags,
+    size_bytes: sizeBytes,
   }));
 
   projects.push(...newProjects);

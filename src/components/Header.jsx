@@ -1,7 +1,8 @@
 import InHouseIsotipo from './InHouseIsotipo.jsx';
+import StorageBar from './StorageBar.jsx';
 import './Header.css';
 
-export default function Header({ projectCount }) {
+export default function Header({ projectCount, usedBytes }) {
   return (
     <header className="header">
       <div className="container header__inner">
@@ -14,6 +15,7 @@ export default function Header({ projectCount }) {
             </p>
           </div>
         </div>
+        <StorageBar usedBytes={usedBytes} />
       </div>
     </header>
   );

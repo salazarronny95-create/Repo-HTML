@@ -65,6 +65,11 @@ export default function App() {
     [projects, searchQuery, activeFilter, responsibleFilter]
   );
 
+  const usedBytes = useMemo(
+    () => projects.reduce((sum, p) => sum + (p.size_bytes || 0), 0),
+    [projects]
+  );
+
   const handleUpload = useCallback(
     async (file, responsible, tags, fechaCreacion) => {
       setUploading(true);
@@ -109,7 +114,7 @@ export default function App() {
 
   return (
     <>
-      <Header projectCount={filteredProjects.length} />
+      <Header projectCount={filteredProjects.length} usedBytes={usedBytes} />
 
       <main>
         <DropZone onUpload={handleUpload} uploading={uploading} />
