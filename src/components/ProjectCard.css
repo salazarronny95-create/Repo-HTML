@@ -1,0 +1,106 @@
+.project-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: fadeInUp 0.3s ease forwards;
+}
+
+.project-card__icon-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.project-card__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--md-shape-sm);
+  background: var(--md-primary-container);
+  color: var(--md-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-card__icon--zip {
+  background: var(--md-tertiary-container);
+  color: var(--md-tertiary);
+}
+
+.project-card__badge {
+  font: var(--md-label-large);
+  padding: 2px 10px;
+  border-radius: var(--md-shape-xs);
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.project-card__badge--zip {
+  background: var(--md-tertiary-container);
+  color: var(--md-on-tertiary-container);
+}
+
+.project-card__title {
+  font: var(--md-title-medium);
+  color: var(--md-on-surface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.project-card__meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font: var(--md-body-medium);
+  color: var(--md-on-surface-variant);
+}
+
+.project-card__meta-item svg {
+  flex-shrink: 0;
+  color: var(--md-primary);
+}
+
+.project-card__tags {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-card__actions {
+  display: flex;
+  gap: 4px;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid var(--md-outline-variant);
+}
+
+.project-card__action-btn {
+  width: 40px;
+  height: 40px;
+}
+
+.project-card__action-btn--delete {
+  margin-left: auto;
+  color: var(--md-error);
+}
+
+.project-card__action-btn--delete:hover {
+  background: rgba(239, 68, 68, 0.12);
+}
+
+@media (max-width: 600px) {
+  .project-card {
+    padding: 16px;
+  }
+}

@@ -1,0 +1,337 @@
+/* ===== Material Design 3 Theme — Claude Tech Dark Palette ===== */
+
+:root {
+  /* Brand colors - Pronaca red palette */
+  --md-primary: #DC2626;
+  --md-on-primary: #FFFFFF;
+  --md-primary-container: rgba(220, 38, 38, 0.14);
+  --md-on-primary-container: #FCA5A5;
+  --md-secondary: #A78BFA;
+  --md-on-secondary: #0B0B12;
+  --md-secondary-container: rgba(167, 139, 250, 0.14);
+  --md-on-secondary-container: #DDD6FE;
+  --md-tertiary: #2DD4BF;
+  --md-on-tertiary: #0B0B12;
+  --md-tertiary-container: rgba(45, 212, 191, 0.14);
+  --md-on-tertiary-container: #99F6E4;
+
+  /* Surfaces */
+  --md-surface: #151521;
+  --md-on-surface: #F1F5F9;
+  --md-surface-variant: #1D1D2E;
+  --md-on-surface-variant: #94A3B8;
+  --md-background: #0B0B12;
+  --md-on-background: #F1F5F9;
+  --md-outline: rgba(255, 255, 255, 0.10);
+  --md-outline-variant: rgba(255, 255, 255, 0.06);
+
+  /* Error */
+  --md-error: #EF4444;
+  --md-on-error: #0B0B12;
+  --md-error-container: rgba(239, 68, 68, 0.14);
+  --md-on-error-container: #FCA5A5;
+
+  /* Elevation shadows */
+  --md-elevation-1: 0 1px 3px rgba(0,0,0,0.30), 0 1px 2px rgba(0,0,0,0.20);
+  --md-elevation-2: 0 3px 6px rgba(0,0,0,0.35), 0 2px 4px rgba(0,0,0,0.25);
+  --md-elevation-3: 0 6px 12px rgba(0,0,0,0.40), 0 3px 6px rgba(0,0,0,0.25);
+  --md-elevation-4: 0 12px 24px rgba(0,0,0,0.45), 0 6px 12px rgba(0,0,0,0.30);
+
+  /* Shape */
+  --md-shape-xs: 4px;
+  --md-shape-sm: 8px;
+  --md-shape-md: 12px;
+  --md-shape-lg: 16px;
+  --md-shape-xl: 24px;
+  --md-shape-full: 9999px;
+
+  /* Typography */
+  --md-font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --md-label-large: 500 14px/20px var(--md-font);
+  --md-body-large: 400 16px/24px var(--md-font);
+  --md-body-medium: 400 14px/20px var(--md-font);
+  --md-title-small: 500 14px/20px var(--md-font);
+  --md-title-medium: 500 16px/24px var(--md-font);
+  --md-title-large: 400 22px/28px var(--md-font);
+  --md-headline-small: 400 24px/32px var(--md-font);
+  --md-headline-medium: 400 28px/36px var(--md-font);
+  --md-headline-large: 400 32px/40px var(--md-font);
+}
+
+/* ===== Reset & Base ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+/* Focus visible for keyboard navigation (a11y) */
+:focus-visible {
+  outline: 2px solid var(--md-primary);
+  outline-offset: 2px;
+}
+
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible),
+input:focus:not(:focus-visible),
+select:focus:not(:focus-visible) {
+  outline: none;
+}
+
+body {
+  font-family: var(--md-font);
+  background-color: var(--md-background);
+  color: var(--md-on-background);
+  font: var(--md-body-large);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Utility Classes ===== */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.m3-card {
+  background: var(--md-surface);
+  border-radius: var(--md-shape-md);
+  box-shadow: var(--md-elevation-1);
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+  overflow: hidden;
+  border: 1px solid var(--md-outline-variant);
+}
+
+.m3-card:hover {
+  box-shadow: var(--md-elevation-2);
+  transform: translateY(-2px);
+  border-color: rgba(220, 38, 38, 0.2);
+}
+
+.m3-card:focus-within {
+  border-color: rgba(220, 38, 38, 0.3);
+}
+
+.m3-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: var(--md-label-large);
+  padding: 10px 24px;
+  border-radius: var(--md-shape-full);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+  text-decoration: none;
+  letter-spacing: 0.1px;
+}
+
+.m3-button:active {
+  transform: scale(0.98);
+}
+
+.m3-button--filled {
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+  box-shadow: var(--md-elevation-1);
+}
+
+.m3-button--filled:hover {
+  background: rgba(220, 38, 38, 0.85);
+  box-shadow: var(--md-elevation-2);
+}
+
+.m3-button--tonal {
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+}
+
+.m3-button--tonal:hover {
+  background: rgba(220, 38, 38, 0.22);
+}
+
+.m3-button--outlined {
+  background: transparent;
+  color: var(--md-primary);
+  border: 1px solid var(--md-outline);
+}
+
+.m3-button--outlined:hover {
+  background: rgba(220, 38, 38, 0.08);
+}
+
+.m3-button--text {
+  background: transparent;
+  color: var(--md-primary);
+  padding: 10px 12px;
+}
+
+.m3-button--text:hover {
+  background: rgba(220, 38, 38, 0.08);
+}
+
+.m3-button--icon {
+  padding: 8px;
+  min-width: 40px;
+  min-height: 40px;
+  justify-content: center;
+  border-radius: var(--md-shape-full);
+}
+
+.m3-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: var(--md-label-large);
+  padding: 6px 16px;
+  border-radius: var(--md-shape-sm);
+  border: 1px solid var(--md-outline-variant);
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.m3-chip:hover {
+  background: rgba(220, 38, 38, 0.08);
+}
+
+.m3-chip--active {
+  background: var(--md-secondary-container);
+  border-color: var(--md-secondary);
+  color: var(--md-on-secondary-container);
+}
+
+.m3-input {
+  font: var(--md-body-large);
+  padding: 12px 16px;
+  border-radius: var(--md-shape-sm);
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface);
+  color: var(--md-on-surface);
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.m3-input:focus {
+  border-color: var(--md-primary);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+}
+
+.m3-input::placeholder {
+  color: var(--md-on-surface-variant);
+  opacity: 0.7;
+}
+
+.m3-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+.m3-select option {
+  background: var(--md-surface);
+  color: var(--md-on-surface);
+}
+
+.m3-select:invalid {
+  color: var(--md-on-surface-variant);
+}
+
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-in {
+  animation: fadeInUp 0.3s ease forwards;
+}
+
+/* ===== Responsive Grid ===== */
+.feed-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 0;
+}
+
+@media (min-width: 600px) {
+  .feed-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .feed-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .container {
+    padding: 0 24px;
+  }
+}
+
+/* ===== Scrollbar styling ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--md-outline-variant);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--md-outline);
+}
+
+/* ===== Skeleton loading ===== */
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--md-surface-variant) 25%, #25253a 50%, var(--md-surface-variant) 75%);
+  background-size: 400px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--md-shape-sm);
+}

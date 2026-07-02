@@ -1,0 +1,23 @@
+{
+  "name": "Repositorio de Proyectos HTML",
+  "short_name": "Proyectos HTML",
+  "description": "Sube, visualiza y gestiona tus proyectos HTML",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B0B12",
+  "theme_color": "#DC2626",
+  "icons": [
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
