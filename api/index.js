@@ -30,8 +30,10 @@ const upload = multer({
   storage: multer.memoryStorage(),
   fileFilter: (_req, file, cb) => {
     const ext = path.extname(file.originalname).toLowerCase();
-    if (ext === '.html' || ext === '.zip') cb(null, true);
-    else cb(new Error('Solo se permiten archivos .html o .zip'));
+    if (ext === '.html' || ext === '.zip') return cb(null, true);
+    const err = new Error('Solo se permiten archivos .html o .zip');
+    err.status = 400;
+    cb(err);
   },
   limits: { fileSize: 50 * 1024 * 1024 },
 });
@@ -61,7 +63,19 @@ async function writeProjects(projects) {
     access: 'public',
     contentType: 'application/json',
   });
-  await Promise.allSettled(previous.map((b) => del(b.url)));
+  const cleanup = await Promise.allSettled(previous.map((b) => del(b.url)));
+  const failures = cleanup.filter((r) => r.status === 'rejected');
+  if (failures.length > 0) {
+    // Best-effort cleanup — if this keeps failing, stale versions pile up
+    // and slowly inflate storage cost, so surface it in the function logs.
+    console.error(`writeProjects: failed to clean up ${failures.length}/${previous.length} old version(s)`, failures[0].reason);
+  }
+}
+
+// Wraps an async route handler so a rejected promise reaches Express's error
+// middleware instead of leaving the request hanging with no response.
+function asyncRoute(fn) {
+  return (req, res, next) => fn(req, res, next).catch(next);
 }
 
 // Extracts .html entries from a zip buffer and uploads each to Blob storage.
@@ -96,20 +110,20 @@ app.use(cors());
 app.use(express.json());
 
 // GET /api/projects
-app.get('/api/projects', async (_req, res) => {
+app.get('/api/projects', asyncRoute(async (_req, res) => {
   res.json(await readProjects());
-});
+}));
 
 // GET /api/projects/:id
-app.get('/api/projects/:id', async (req, res) => {
+app.get('/api/projects/:id', asyncRoute(async (req, res) => {
   const projects = await readProjects();
   const project = projects.find((p) => p.id === req.params.id);
   if (!project) return res.status(404).json({ error: 'Proyecto no encontrado' });
   res.json(project);
-});
+}));
 
 // POST /api/projects
-app.post('/api/projects', upload.single('file'), async (req, res) => {
+app.post('/api/projects', upload.single('file'), asyncRoute(async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'No se ha proporcionado ningún archivo' });
   }
@@ -156,10 +170,10 @@ app.post('/api/projects', upload.single('file'), async (req, res) => {
   projects.push(...newProjects);
   await writeProjects(projects);
   res.status(201).json(newProjects);
-});
+}));
 
 // DELETE /api/projects/:id
-app.delete('/api/projects/:id', async (req, res) => {
+app.delete('/api/projects/:id', asyncRoute(async (req, res) => {
   const projects = await readProjects();
   const index = projects.findIndex((p) => p.id === req.params.id);
   if (index === -1) return res.status(404).json({ error: 'Proyecto no encontrado' });
@@ -172,6 +186,15 @@ app.delete('/api/projects/:id', async (req, res) => {
     // Blob may already be gone, ignore
   }
   res.json({ message: 'Proyecto eliminado', id: project.id });
+}));
+
+// JSON error middleware — must be last. Catches multer validation errors
+// (fileFilter rejects, file too large) and anything asyncRoute forwards,
+// so clients always get { error } instead of Express's default HTML page.
+app.use((err, _req, res, _next) => {
+  console.error(err);
+  const status = err.name === 'MulterError' ? 400 : err.status || 500;
+  res.status(status).json({ error: err.message || 'Error interno del servidor' });
 });
 
 export default app;
