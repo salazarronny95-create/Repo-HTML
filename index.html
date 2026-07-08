@@ -1,18 +1,323 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Repositorio de Proyectos HTML - Sube, visualiza y gestiona tus proyectos HTML" />
-    <meta name="theme-color" content="#6BE787" />
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="icon" type="image/svg+xml" sizes="192x192" href="/icons/icon-192.svg" />
-    <link rel="icon" type="image/svg+xml" sizes="512x512" href="/icons/icon-512.svg" />
-    <link rel="apple-touch-icon" href="/icons/icon-192.svg" />
-    <title>Repositorio de Proyectos HTML</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#00524f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Cumplimiento de tareas comerciales · Canal Directo</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+:root{--teal:#00524f;--mint:#c9f2e0;--ink:#15211f;--muted:#5f726e;--line:#e3ece9;--red:#c0392b;--amber:#c77d12;--green:#1f8a52}
+*{box-sizing:border-box}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;margin:0;background:#f6f9f8;color:var(--ink);font-weight:400;font-size:14px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 22px}
+.top{background:var(--teal);color:#fff;padding:20px 0}
+.top .wrap{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap}
+.top h1{margin:0;font-size:23px;font-weight:800;letter-spacing:-.01em}
+.top p{margin:5px 0 0;font-size:13px;opacity:.9;font-weight:300;max-width:760px}
+.meta{display:flex;flex-direction:column;gap:7px;align-items:flex-end}
+.pill2{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#eafaf6;padding:4px 11px;border-radius:20px;font-size:11.5px;white-space:nowrap}
+.mbtns{display:flex;gap:8px;margin-top:1px}
+.tbtn{font-family:inherit;font-size:12px;font-weight:700;padding:6px 12px;border-radius:8px;cursor:pointer;border:1.5px solid #fff}
+.tbtn.ghost{background:transparent;color:#fff}
+.tbtn.solid{background:#fff;color:var(--teal);border-color:#fff}
+.filters{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30;box-shadow:0 1px 8px rgba(0,0,0,.04)}
+.row{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;padding:12px 0}
+.fg label{display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+select{font-family:inherit;font-size:13.5px;padding:8px 12px;border:1.5px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);font-weight:600;cursor:pointer;min-width:140px;max-width:230px}
+/* multiselect (filtros de cabecera) */
+.msf{position:relative;min-width:150px;max-width:230px}
+.msf-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;font-family:inherit;font-size:13.5px;padding:8px 12px;border:1.5px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);font-weight:600;cursor:pointer;text-align:left}
+.msf-btn.on{border-color:var(--teal);color:var(--teal)}
+.msf-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.msf-caret{color:var(--muted);font-size:11px;flex:0 0 auto}
+.msf-pan{position:absolute;z-index:30;top:calc(100% + 4px);left:0;min-width:230px;max-width:300px;background:#fff;border:1px solid var(--line);border-radius:11px;box-shadow:0 10px 28px rgba(16,40,34,.16);padding:8px}
+.msf-tools{display:flex;gap:6px;margin-bottom:6px}
+.msf-search{flex:1;font-family:inherit;font-size:12.5px;padding:6px 9px;border:1px solid var(--line);border-radius:7px;color:var(--ink)}
+.msf-all,.msf-none{font-family:inherit;font-size:11.5px;font-weight:700;border:1px solid var(--line);border-radius:7px;background:#fff;color:var(--muted);cursor:pointer;padding:0 9px;white-space:nowrap}
+.msf-all:hover,.msf-none:hover{border-color:var(--teal);color:var(--teal)}
+.msf-list{max-height:260px;overflow:auto}
+.msf-opt{display:flex;align-items:center;gap:8px;padding:6px 7px;border-radius:7px;font-size:13px;color:var(--ink);cursor:pointer;font-weight:500}
+.msf-opt:hover{background:var(--mint)}
+.msf-opt input{width:15px;height:15px;accent-color:var(--teal);cursor:pointer}
+.msf-empty{font-size:12px;color:var(--muted);padding:8px 7px}
+.reset{font-family:inherit;font-size:12.5px;padding:8px 14px;border:1.5px solid var(--teal);color:var(--teal);background:#fff;border-radius:9px;cursor:pointer;font-weight:600}
+.scope{font-size:12.5px;color:var(--muted);padding:0 0 10px}
+.scope b{color:var(--red)}
+section{padding:22px 0;border-bottom:1px solid var(--line)}
+.shead h2{margin:0 0 2px;font-size:20px;font-weight:700;color:var(--teal)}
+.shead p{margin:0 0 14px;font-size:12.5px;color:var(--muted);font-weight:300}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+/* ---- Tarjetas Geocerca (mismo lenguaje visual del dashboard · Mobile-First) ---- */
+.geowrap{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+@media(min-width:560px){.geowrap{grid-template-columns:1fr 1fr}}
+.geocard{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px 16px;position:relative;overflow:hidden}
+.geocard .accent{position:absolute;left:0;top:0;bottom:0;width:4px}
+.geocard.ok .accent{background:var(--green)}
+.geocard.no .accent{background:var(--red)}
+.geo-k{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.geo-v{font-size:25px;font-weight:800;margin:5px 0 2px;color:var(--ink)}
+.geocard.ok .geo-v{color:var(--green)}
+.geocard.no .geo-v{color:var(--red)}
+.geo-d{font-size:11.5px;color:var(--muted);font-weight:300;margin-bottom:9px}
+.geo-d b{color:var(--ink);font-weight:700}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px 16px;position:relative;overflow:hidden}
+.kpi .accent{position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--teal)}
+.kpi.hero .accent{background:var(--green)}
+.kpi .k{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.kpi .v{font-size:25px;font-weight:800;margin:5px 0 2px;color:var(--ink)}
+.kpi.hero .v{color:var(--green)}
+.kpi .d{font-size:11.5px;color:var(--muted);font-weight:300}
+.kpi .d b{color:var(--ink);font-weight:800}
+.panel{background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+.ptitle{font-size:14.5px;font-weight:700;color:var(--ink)}
+.psub{font-size:12px;color:var(--muted);margin:1px 0 10px;font-weight:300}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{padding:7px 9px;text-align:left;border-bottom:1px solid var(--line)}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);font-weight:700}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+.bold{font-weight:700}
+.tlab{max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pill{display:inline-block;padding:1px 8px;border-radius:20px;font-size:11px;font-weight:700;background:var(--mint);color:var(--teal)}
+.bar{height:7px;background:var(--line);border-radius:4px;overflow:hidden}.bar>i{display:block;height:7px;border-radius:4px;background:var(--teal)}
+.modgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.modcard{border:1px solid var(--line);border-radius:11px;padding:12px 14px;background:#fbfdfc}
+.modcard .mn{font-size:12px;font-weight:700;color:var(--teal)}
+.modcard .mv{font-size:20px;font-weight:800;margin:4px 0 4px}
+.modcard .ms{font-size:11px;color:var(--muted);margin-bottom:6px}
+.dl{font-family:inherit;font-size:11.5px;padding:5px 11px;border:1.5px solid var(--teal);color:var(--teal);background:#fff;border-radius:8px;cursor:pointer;font-weight:600}
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:8px;overflow:hidden;float:right}
+.seg button{border:0;background:#fff;padding:5px 11px;font-size:11.5px;cursor:pointer;color:var(--muted);font-family:inherit;font-weight:600}
+.seg button.on{background:var(--teal);color:#fff}
+.more{margin-top:10px;text-align:center}
+.morebtn{font-family:inherit;font-size:12px;font-weight:600;padding:6px 14px;border:1.5px solid var(--line);border-radius:8px;background:#fbfdfc;color:var(--teal);cursor:pointer}
+/* evolutivo */
+.evo-wrap{display:flex;gap:12px;align-items:flex-end;height:140px;padding:4px 2px 0}
+.evo-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:36px}
+.evo-pct{font-size:12px;font-weight:800;color:var(--ink);margin-bottom:4px}
+.evo-bar{width:60%;max-width:52px;height:100%;display:flex;align-items:flex-end;background:#eef4f2;border-radius:6px 6px 0 0;overflow:hidden}
+.evo-bar>i{display:block;width:100%;border-radius:6px 6px 0 0}
+.evo-x{font-size:11.5px;font-weight:700;color:var(--teal);margin-top:6px}
+.evo-n{font-size:10.5px;color:var(--muted)}
+.evo-leg{font-size:11px;color:var(--muted);margin-top:10px;text-align:center;font-weight:300}
+.evo-tip{position:absolute;z-index:5;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 6px 20px rgba(16,40,34,.14);padding:9px 12px;font-size:12px;pointer-events:none;min-width:150px}
+.evo-tip b{display:block;color:var(--ink);font-size:12.5px;margin-bottom:4px}
+.evo-tip span{display:block;color:var(--muted)}
+.evo-tip .big{color:var(--teal);font-weight:800;font-size:13.5px;margin-top:3px}
+.foot p{margin:0 0 9px}.foot .bold{color:var(--ink)}
+.codeprose{line-height:1.7;font-weight:300}
+/* ===== Módulo ejecución diaria · paleta pastel Pronaca + M3 ===== */
+.mod-exec{--pg:#cdeadb;--pg-t:#1c6b46;--pa:#fbe7c2;--pa-t:#8a5a00;--pn:#e7eeeb;--pn-t:#6b7a76;
+  --p-prim:#2e7d5b;--p-prim-c:#d7efe2;--p-surf:#f3faf6;--p-out:#d7e8e1}
+.mod-filters{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--p-out)}
+.mf{display:flex;flex-direction:column;gap:3px}
+.mf label{font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.mf select{font-family:inherit;font-size:13px;padding:7px 10px;border:1.5px solid var(--p-out);border-radius:10px;background:#fff;color:var(--ink);font-weight:600;min-width:130px;max-width:210px}
+.mod-filters .reset{border-color:var(--p-prim);color:var(--p-prim)}
+@media(max-width:560px){.mf{flex:1 1 45%}.mf select{min-width:0;width:100%}}
+.ds-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:2px 0 8px}
+.locfilters{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin:6px 0 14px}
+.locfilters .fg{flex:1 1 150px;min-width:130px}
+.locfilters select{width:100%}
+@media(max-width:560px){.locfilters .reset{flex:1 1 100%}}
+.dayslider{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 10px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.dayslider::-webkit-scrollbar{height:0}
+.daychip{flex:0 0 auto;scroll-snap-align:start;min-width:60px;min-height:52px;border:1.5px solid var(--p-out);border-radius:16px;
+  background:#fff;color:var(--ink);cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:1px;padding:6px 12px;transition:.12s;user-select:none}
+.daychip:hover{background:var(--p-surf)}
+.daychip .dc-d{font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.daychip .dc-n{font-size:18px;font-weight:800;line-height:1}
+.daychip .dc-m{font-size:9.5px;color:var(--muted)}
+.daychip.on{background:var(--p-prim-c);border-color:var(--p-prim);color:var(--p-prim)}
+.daychip.on .dc-d,.daychip.on .dc-m{color:var(--p-prim)}
+.daychip.all{justify-content:center}.daychip.all .dc-n{font-size:13px}
+/* acordeón diario */
+.exrow{border:1px solid var(--p-out);border-radius:14px;margin-bottom:10px;overflow:hidden;background:#fff}
+.exhead{width:100%;display:grid;grid-template-columns:1fr auto auto;gap:8px 12px;align-items:center;padding:12px 14px;background:none;border:0;cursor:pointer;font-family:inherit;text-align:left}
+.exhead:hover{background:var(--p-surf)}
+.exev{font-size:14.5px;font-weight:800;color:var(--ink)}
+.exsup{font-size:11.5px;color:var(--muted);font-weight:500;grid-column:1;grid-row:2}
+.exbadge{font-size:11px;font-weight:700;background:var(--p-prim-c);color:var(--p-prim);border-radius:20px;padding:3px 10px;white-space:nowrap}
+.exkpi{font-size:13px;font-weight:700;white-space:nowrap;text-align:right}
+.exkpi small{font-weight:500;color:var(--muted)}
+.exchev{grid-row:1/3;font-size:15px;color:var(--muted);transition:.15s;justify-self:end}
+.exrow.open .exchev{transform:rotate(90deg)}
+.exbody{padding:2px 12px 12px;border-top:1px solid var(--p-out);background:var(--p-surf)}
+.excli{padding:10px 2px;border-bottom:1px dashed var(--p-out)}
+.excli:last-child{border-bottom:0}
+.exclih{font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.exclin{font-weight:400;color:var(--muted);font-size:11.5px}
+.extasks{display:flex;flex-wrap:wrap;gap:6px}
+.tchip{font-size:11px;font-weight:600;border-radius:9px;padding:4px 9px;display:inline-flex;align-items:center;gap:5px;line-height:1.2}
+.tchip .dot{width:7px;height:7px;border-radius:50%}
+.tchip.g{background:var(--pg);color:var(--pg-t)} .tchip.g .dot{background:var(--pg-t)}
+.tchip.a{background:var(--pa);color:var(--pa-t)} .tchip.a .dot{background:var(--pa-t)}
+.tchip.n{background:var(--pn);color:var(--pn-t)} .tchip.n .dot{background:var(--pn-t)}
+.exlegend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin:2px 0 12px}
+.exlegend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:0}
+.daily-more{margin-top:6px;text-align:center}
+/* filas de ranking de vendedor expandibles */
+.ven-row{cursor:pointer}
+.ven-row:hover{background:var(--p-surf)}
+.ven-chev{display:inline-block;transition:.15s;color:var(--muted);font-size:12px;width:12px}
+.ven-row.open .ven-chev{transform:rotate(90deg)}
+.ven-row.open{background:var(--p-surf)}
+.ven-det td{padding:0 8px 10px!important;background:var(--p-surf);border-bottom:1px solid var(--p-out)}
+/* tabla consolidada del desplegable de vendedor */
+.rdt{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--p-out);border-radius:10px;overflow:hidden;margin-top:8px}
+.rdt th{font-size:10.5px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);font-weight:700;padding:9px 12px;border-bottom:1px solid var(--p-out)}
+.rdt td{padding:11px 12px;font-size:15px;font-weight:700;color:var(--ink)}
+.rdt .num{text-align:right}
+/* AuditVision */
+.av-thumb{width:52px;height:52px;object-fit:cover;border-radius:8px;border:1px solid var(--line);display:block;background:#eef4f2}
+.avpill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.avpill.g{background:var(--mint);color:var(--teal)}
+.avpill.n{background:#f7dcd6;color:var(--red)}
+#auditvision a{color:var(--teal);font-weight:700;text-decoration:none}
+#auditvision a:hover{text-decoration:underline}
+/* upload */
+#upload{max-width:720px;margin:46px auto;padding:0 22px}
+.drop{background:#fff;border:2.5px dashed #b9d6cf;border-radius:16px;padding:40px 26px;text-align:center}
+.drop.drag{border-color:var(--teal);background:#eff8f5}
+.drop h2{margin:0 0 6px;color:var(--teal);font-size:21px;font-weight:800}
+.drop p{color:var(--muted);font-size:13.5px;margin:6px 0;font-weight:300}
+.pickbtn{display:inline-block;margin-top:14px;background:var(--teal);color:#fff;padding:11px 20px;border-radius:10px;cursor:pointer;font-weight:700;font-size:14px}
+.gobtn{margin-top:16px;background:var(--red);color:#fff;border:0;padding:12px 26px;border-radius:10px;font-size:14.5px;font-weight:800;cursor:pointer}
+.gobtn:disabled{background:#c7d3d2;cursor:not-allowed}
+.filelist{margin:18px 0 4px;text-align:left;display:flex;flex-direction:column;gap:8px}
+.frow{display:flex;align-items:center;gap:10px;background:#f6faf9;border:1px solid var(--line);border-radius:9px;padding:9px 12px;font-size:13px}
+.frow .tag{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;background:var(--mint);color:var(--teal)}
+.frow .ok{color:var(--green);font-weight:700}.frow .err{color:var(--red);font-weight:700}
+.req{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.7;text-align:left;background:#fbfdfc;border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-weight:300}
+.req b{color:var(--teal);font-weight:700}
+.spin{display:inline-block;width:15px;height:15px;border:2.5px solid #cfe7e0;border-top-color:var(--teal);border-radius:50%;animation:sp .8s linear infinite;vertical-align:-3px;margin-right:8px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.hidden{display:none!important}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--teal);color:#fff;padding:10px 18px;border-radius:10px;font-size:13px;box-shadow:0 6px 20px rgba(0,0,0,.2);z-index:50}
+@media(max-width:880px){.grid2{grid-template-columns:1fr}}
+@media(max-width:760px){.wrap{padding:0 14px}.fg{flex:1 1 140px}select{min-width:0;width:100%}.top .wrap{flex-direction:column}.meta{align-items:flex-start}}
+</style>
+</head>
+<body>
+
+<!-- VISTA DE CARGA -->
+<div id="upload">
+  <div class="drop" id="drop">
+    <h2>Carga los archivos del mes</h2>
+    <p>Arrastra aquí los Excel o selecciónalos. Se procesan en tu navegador; nada se sube a un servidor.</p>
+    <label class="pickbtn">Seleccionar archivos
+      <input type="file" id="file" accept=".xlsx,.xls" multiple class="hidden">
+    </label>
+    <div class="filelist" id="filelist"></div>
+    <button class="gobtn" id="process" disabled>Procesar y generar dashboard</button>
+    <div class="req">
+      <b>Archivos esperados (se detectan automáticamente):</b><br>
+      1. <b>Base de clientes / plan</b> — universo + columnas de tarea marcadas (codigo_local).<br>
+      2. <b>Rutero maestro</b> — Cliente, EV (vendedor), NombreSupervisor y región.<br>
+      3. <b>Tareas de ejecución (Teamcore)</b> — columnas Pregunta y Respuesta.<br>
+      <span style="color:var(--muted)">Puedes arrastrar varios ruteros; se combinan.</span>
+    </div>
+    <div style="margin-top:14px"><button class="tbtn ghost" id="reset-upload" style="border-color:var(--line);color:var(--muted)">Borrar datos guardados</button></div>
+  </div>
+</div>
+
+<!-- VISTA DASHBOARD -->
+<div id="dash" class="hidden">
+  <div class="top"><div class="wrap">
+    <div>
+      <h1>Cumplimiento de tareas comerciales · Canal Directo</h1>
+      <p id="sub-head"></p>
+    </div>
+    <div class="meta" id="meta"></div>
+  </div></div>
+
+  <div class="filters"><div class="wrap">
+    <div class="row">
+      <div class="fg"><label>Región</label><div class="msf" id="mf-region"></div></div>
+      <div class="fg"><label>Macrocanal</label><div class="msf" id="mf-macrocanal"></div></div>
+      <div class="fg"><label>Supervisor</label><div class="msf" id="mf-supervisor"></div></div>
+      <div class="fg"><label>Vendedor</label><div class="msf" id="mf-vendedor"></div></div>
+      <div class="fg"><label>Modelo</label><div class="msf" id="mf-modelo"></div></div>
+      <div class="fg"><label>Tarea</label><div class="msf" id="mf-pregunta"></div></div>
+      <div class="fg"><label>Semana</label><div class="msf" id="mf-semana"></div></div>
+      <div class="fg"><label>Día</label><div class="msf" id="mf-dia"></div></div>
+      <button class="reset" id="clear">Limpiar</button>
+    </div>
+    <div class="scope" id="summary"></div>
+  </div></div>
+
+  <div class="wrap">
+    <section>
+      <div class="shead"><h2>Resumen de cumplimiento</h2>
+        <p>Una tarea se cumple cuando la tarea cargada en la base quedó en <i>Logrado</i> en Teamcore. Cumplimiento = logradas / tareas cargadas (base).</p></div>
+      <div class="cards" id="cards"></div>
+      <div class="geowrap" id="geo-cards"></div>
+      <div style="height:14px"></div>
+      <div class="modgrid" id="by-modelo"></div>
+    </section>
+
+    <section>
+      <div class="shead"><h2>Tendencia diaria de cumplimiento</h2><p>% de cumplimiento por día (tareas logradas ÷ tareas cargadas ese día, según la fecha de Teamcore).</p></div>
+      <div class="panel" id="evo-panel"><div id="evo"></div></div>
+    </section>
+
+    <section>
+      <div class="shead"><h2>Desempeño por tarea</h2><p>Por tarea (columna Pregunta): clientes · tareas cargadas · tareas logradas · % cumplimiento (logradas / cargadas), ordenado por volumen.</p></div>
+      <div class="panel">
+        <table><thead><tr><th>Tarea</th><th class="num">Clientes</th><th class="num">Tareas cargadas</th><th class="num">Tareas logradas</th><th class="num">% Cumpl.</th><th style="width:130px"></th></tr></thead>
+        <tbody id="by-preg"></tbody></table>
+      </div>
+    </section>
+
+    <section>
+      <div class="shead"><h2>Por supervisor</h2><p>Clientes · tareas cargadas · tareas logradas · % cumplimiento (logradas / cargadas) · ordenado por % cumplimiento.</p></div>
+      <div class="panel">
+        <div class="ptitle">Equipos</div><div class="psub" id="sup-sub"></div>
+        <table><thead><tr><th>Supervisor</th><th class="num">Clientes</th><th class="num">Tareas cargadas</th><th class="num">Tareas logradas</th><th class="num">% Cumpl.</th><th style="width:120px"></th></tr></thead>
+        <tbody id="rk-supervisor"></tbody></table>
+      </div>
+    </section>
+
+    <section>
+      <div class="shead"><h2>Por vendedor</h2><p>Cumplimiento = logradas / tareas asignadas. Elige un día para ver el detalle por ejecutivo (clientes y tareas del día).</p></div>
+      <div class="panel mod-exec">
+        <p class="psub" style="margin:0 0 10px">Estos filtros afinan dentro de los <b>filtros de cabecera</b> (que ya acotan toda la página).</p>
+        <div class="mod-filters">
+          <div class="mf"><label>Región</label><select id="lf-region"></select></div>
+          <div class="mf"><label>Supervisor</label><select id="lf-supervisor"></select></div>
+          <div class="mf"><label>Vendedor (EV)</label><select id="lf-vendedor"></select></div>
+          <div class="mf"><label>Día</label><select id="lf-dia"></select></div>
+          <button class="reset" id="lf-clear">Limpiar</button>
+        </div>
+        <div id="ven-normal">
+          <div class="ptitle">Ejecutivos</div><div class="psub" id="ven-sub"></div>
+          <table><thead><tr><th>Vendedor (EV)</th><th>Supervisor</th><th class="num">Clientes</th><th class="num">Tareas cargadas</th><th class="num">Tareas logradas</th><th class="num">% Cumpl.</th><th style="width:110px"></th></tr></thead>
+          <tbody id="rk-vendedor"></tbody></table>
+          <div class="more" id="more-vendedor"></div>
+        </div>
+        <div id="daily-vendedor" class="hidden"></div>
+      </div>
+    </section>
+
+    <section id="av-section">
+      <div class="shead"><h2>AuditVision</h2><p>Validación por IA de imágenes de ejecución. Toca la miniatura o "Ver imagen" para abrir la foto.</p></div>
+      <div class="panel"><div id="auditvision"></div></div>
+    </section>
+
+    <section style="border:none">
+      <div class="shead"><h2>Cómo se calcula</h2></div>
+      <div class="panel codeprose foot" id="foot"></div>
+    </section>
+  </div>
+</div>
+
+<script src="xlsx.full.min.js"></script>
+<script src="pipeline.js"></script>
+<script src="app.js"></script>
+</body>
 </html>
